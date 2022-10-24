@@ -14,9 +14,8 @@ if [[ ! $writestr ]]
 then 
 	echo "Error: parameter not specified: missing write string"
 	exit 1
-fi
-
-if [[ -d $file_path ]] 
+else
+    if [[ -d $file_path ]] 
 then
     echo "Continue: Filepath already exist: $file_path"
 else
@@ -46,3 +45,5 @@ else
         echo 'INFO: File creation succceeded'
     fi
 fi
+fi
+
