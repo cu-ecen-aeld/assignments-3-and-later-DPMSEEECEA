@@ -5,7 +5,7 @@
 # -o, outut
 # -I, include dir
 ##
-#CROSS_COMPILE = aarch64-none-linux-gnu-
+CROSS_COMPILE = aarch64-none-linux-gnu-
 cc = $(CROSS_COMPILE)gcc
 soruce := writer.c
 target = writer
