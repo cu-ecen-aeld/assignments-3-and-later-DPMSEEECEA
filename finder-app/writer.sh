@@ -1,5 +1,4 @@
-#!/bin/bash
-
+#!/bin/sh
 #Argumnets
 writefile=$1
 file_path=$(dirname $1)

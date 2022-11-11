@@ -1,5 +1,4 @@
-#!/bin/bash
-
+#!/bin/sh
 #Argumnets
 filedir=$1
 searchstr=$2
