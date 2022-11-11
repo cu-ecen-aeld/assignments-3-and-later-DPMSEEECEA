@@ -133,13 +133,6 @@ make -j 8 ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE
 cd "$OUTDIR"
 # TODO: Copy the finder related scripts and executables to the /home directory
 # on the target rootfs
-#sudo cp -r "$FINDER_APP_DIR"/writer "$OUTDIR"/rootfs/home/
-#sudo cp -r "$FINDER_APP_DIR"/writer.o "$OUTDIR"/rootfs/home/
-#sudo cp -r "$FINDER_APP_DIR"/writer.sh "$OUTDIR"/rootfs/home/
-#sudo cp -r "$FINDER_APP_DIR"/finder.sh "$OUTDIR"/rootfs/home/
-#sudo cp -r "$FINDER_APP_DIR"/finder-test.sh "$OUTDIR"/rootfs/home/
-#sudo cp -r "$FINDER_APP_DIR"/autorun-qemu.sh "$OUTDIR"/rootfs/home/
-#sudo cp -r "$FINDER_APP_DIR"/conf/username.txt "$OUTDIR"/rootfs/home/conf
 sudo cp -r "$FINDER_APP_DIR"/* "$OUTDIR"/rootfs/home/
 sudo cp -r "$FINDER_APP_DIR"/conf/* "$OUTDIR"/rootfs/conf/
 
