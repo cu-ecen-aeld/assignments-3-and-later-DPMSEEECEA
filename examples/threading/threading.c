@@ -26,7 +26,7 @@ void* threadfunc(void* thread_param)
     usleep(thread_func_args->wait_to_obtain_ms * 500);
     if (rc != 0)
     {
-        ERROR_LOG("ERROR: The Application failed pthread_mutex_lock, error: %s\n", rc);
+        DEBUG_LOG("ERROR: The Application failed pthread_mutex_lock, error: %s\n", rc);
         thread_func_args->thread_complete_success = false;
     }
     else
@@ -36,7 +36,7 @@ void* threadfunc(void* thread_param)
         if (rc != 0 )
         {
             
-            ERROR_LOG("ERROR: The Application failed pthread_mutex_lock; FAIL SAFE, error: %s\n", rc);
+            DEBUG_LOG("ERROR: The Application failed pthread_mutex_lock; FAIL SAFE, error: %s\n", rc);
             thread_func_args->thread_complete_success = false;
         }
         else
