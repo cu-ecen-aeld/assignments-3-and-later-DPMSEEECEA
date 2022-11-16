@@ -5,17 +5,38 @@
 set -e
 set -u
 
+#Assignment 4 Part 2
+#Config files are at /etc/finder-app/conf
+
 NUMFILES=10
 WRITESTR=AELD_IS_FUN
 WRITEDIR=/tmp/aeld-data
-username=$(cat conf/username.txt)
+USERNAME=$(cat /etc/finder-app/conf/username.txt)
+WORKINGDIR=$(dirname $0)
+#REQUIREMENT: Write a file with output of the finder command to /tmp/assignment4-result.txt
+OUTFILE=/tmp/assignment4-result.txt
+
+if [[ -d $(dirname $OUTFILE) ]] 
+then
+    echo "Continue: Filepath already exist: "$(dirname $OUTFILE)
+else
+    echo "ERROR: Filepath does not exist creating:"$(dirname $OUTFILE)
+    mkdir -p $(dirname $OUTFILE)
+fi
+
+if [[ -e $OUTFILE ]] 
+then
+	rm -f $OUTFILE
+else
+	touch $OUTFILE
+fi
 
 if [ $# -lt 3 ]
 then
-	echo "Using default value ${WRITESTR} for string to write"
+	echo "Using default value ${WRITESTR} for string to write" >> $OUTFILE
 	if [ $# -lt 1 ]
 	then
-		echo "Using default value ${NUMFILES} for number of files to write"
+		echo "Using default value ${NUMFILES} for number of files to write" >> $OUTFILE
 	else
 		NUMFILES=$1
 	fi	
@@ -25,14 +46,14 @@ else
 	WRITEDIR=/tmp/aeld-data/$3
 fi
 
-MATCHSTR="The number of files are ${NUMFILES} and the number of matching lines are ${NUMFILES}"
+MATCHSTR="The number of files are ${NUMFILES} and the number of matching lines are ${NUMFILES}" >> $OUTFILE
 
-echo "Writing ${NUMFILES} files containing string ${WRITESTR} to ${WRITEDIR}"
+echo "Writing ${NUMFILES} files containing string ${WRITESTR} to ${WRITEDIR}" >> $OUTFILE
 
-rm -rf "${WRITEDIR}"
+rm -rf "${WRITEDIR}" 
 
 # create $WRITEDIR if not assignment1
-assignment=`cat ../conf/assignment.txt`
+assignment=`cat /etc/finder-app/conf/assignment.txt`
 
 if [ $assignment != 'assignment1' ]
 then
@@ -43,7 +64,7 @@ then
 	#This issue can also be resolved by using double square brackets i.e [[ ]] instead of using quotes.
 	if [ -d "$WRITEDIR" ]
 	then
-		echo "$WRITEDIR created"
+		echo "$WRITEDIR created" >> $OUTFILE
 	else
 		exit 1
 	fi
@@ -54,20 +75,20 @@ fi
 
 for i in $( seq 1 $NUMFILES)
 do
-	./writer "$WRITEDIR/${username}$i.txt" "$WRITESTR"
+	./writer "$WRITEDIR/${USERNAME}$i.txt" "$WRITESTR"
 done
 
-OUTPUTSTRING=$(./finder.sh "$WRITEDIR" "$WRITESTR")
+OUTPUTSTRING=$("$WORKINGDIR"/finder.sh "$WRITEDIR" "$WRITESTR")
 
 # remove temporary directories
 rm -rf /tmp/aeld-data
 
 set +e
-echo ${OUTPUTSTRING} | grep "${MATCHSTR}"
+echo ${OUTPUTSTRING} | grep "${MATCHSTR}" 
 if [ $? -eq 0 ]; then
-	echo "success"
+	echo "success" >> $OUTFILE
 	exit 0
 else
-	echo "failed: expected  ${MATCHSTR} in ${OUTPUTSTRING} but instead found"
+	echo "failed: expected  ${MATCHSTR} in ${OUTPUTSTRING} but instead found" >> $OUTFILE
 	exit 1
 fi
