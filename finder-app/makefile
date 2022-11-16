@@ -5,7 +5,7 @@
 # -o, outut
 # -I, include dir
 ##
-#CROSS_COMPILE = aarch64-none-linux-gnu-
+CROSS_COMPILE = aarch64-none-linux-gnu-
 soruce := writer.c
 target = writer
 cflags = -g -Wall
