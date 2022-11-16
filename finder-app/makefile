@@ -5,16 +5,16 @@
 # -o, outut
 # -I, include dir
 ##
-#CROSS_COMPILE = aarch64-none-linux-gnu-
+CROSS_COMPILE = aarch64-none-linux-gnu-
 cc = $(CROSS_COMPILE)gcc
 soruce := writer.c
 target = writer
 cflags = -g -Wall
 
-$(target).o: $(soruce)
+all: $(soruce)
 	$(cc) $(cflags) -c -o $(target).o $(soruce); $(cc) $(cflags) -I/ $(target).o -o $(target)
 
-all:
+
 $(target).o: $(soruce)
 	$(cc) $(cflags) -c -o $(target).o $(soruce); $(cc) $(cflags) -I/ $(target).o -o $(target)
 	
