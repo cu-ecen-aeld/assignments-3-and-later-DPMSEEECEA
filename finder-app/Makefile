@@ -11,6 +11,7 @@ soruce := writer.c
 target = writer
 cflags = -g -Wall
 
+all:
 $(target).o: $(soruce)
 	$(cc) $(cflags) -c -o $(target).o $(soruce); $(cc) $(cflags) -I/ $(target).o -o $(target)
 	
