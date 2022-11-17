@@ -4,20 +4,17 @@
 # -c, assemble; do not link.
 # -o, output
 # -I, include dir
+# making changes 
 ##
-CROSS_COMPILE = aarch64-none-linux-gnu-
+#CROSS_COMPILE = aarch64-none-linux-gnu-
 soruce := writer.c
 target = writer
-cflags = -g -Wall
 
-ifdef CROSS_COMPILE
-	cc = $(CROSS_COMPILE)gcc
-else
-	cc = gcc
-endif
+CROSS_COMPILE = 
+all: complile
 
-all: $(soruce)
-	$(cc) $(cflags) $(soruce) -o $(target)
+complile:
+	$(CROSS_COMPILE )$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) -o $(target) $(soruce) $(LDFLAGS)
 #	$(cc) $(cflags) -c -o $(target).o $(soruce); $(cc) $(cflags) -I/ $(target).o -o $(target)
 	
 clean:
