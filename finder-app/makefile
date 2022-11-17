@@ -11,9 +11,9 @@ soruce := writer.c
 target = writer
 
 CROSS_COMPILE = 
-all: complile
+all: compile
 
-complile:
+compile:
 	$(CROSS_COMPILE )$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) -o $(target) $(soruce) $(LDFLAGS)
 #	$(cc) $(cflags) -c -o $(target).o $(soruce); $(cc) $(cflags) -I/ $(target).o -o $(target)
 	
