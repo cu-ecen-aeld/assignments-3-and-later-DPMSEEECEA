@@ -267,7 +267,7 @@ void* get_address(struct sockaddr* sa)
 }
 /*
     FUNCTION: Start listing and accepting connections
-    Requirement:
+    Requirement: Start the server when required and not before
 */
 int start_server()
 {
