@@ -121,7 +121,7 @@ bool do_exec(int count, ...)
             }
             else
             {
-                false;
+                return false;
             }
         }     
 
