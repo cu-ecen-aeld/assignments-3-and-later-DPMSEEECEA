@@ -1,0 +1,22 @@
+#!/bin/sh
+#Example Reference from Mastering Embedded Linux Programming Chapter 10, and Linux System Initializaiton video
+# -S Start
+# -n porcess name 
+# -a specify path
+
+
+case "$1" in
+    start)
+        echo "Starting process"
+        start-stop-daemon -S -n aesdsocket -a /usr/bin/aesdsocket -d
+        ;;
+    stop)
+        echo "Stopping process by sending SIGERM"
+        start-stop-daemon -K -n aesdsocket
+        ;;
+    *)
+        echo "Usage: $0 {start|stop}"
+        exit 1
+esac
+
+exit 0
