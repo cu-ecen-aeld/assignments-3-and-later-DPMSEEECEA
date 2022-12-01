@@ -30,7 +30,7 @@ const char* filename = "aesdsocketdata";
 
 /*
     FUNCTION: Create working direcroty
-    Requirement:
+    Requirement: Create file at path "/var/tmp/aesdsocketdata";
 */
 int create_working_directory()
 {
@@ -64,14 +64,13 @@ int create_working_directory()
     return status;
 }
 /*
-
+    Requirement: Process inboud data.
 */
 int get_message_queue_size(int connections_file_descriptor, char buffer[queue_buffer]){
     int sizeof_buffer = queue_buffer;
     int new_sizeof_buffer = sizeof_buffer;
     int byte_count = 0;
     int stop = 0; 
-    //int init_byte_count = 0;
     int grow = 0;
 
 
@@ -82,23 +81,15 @@ int get_message_queue_size(int connections_file_descriptor, char buffer[queue_bu
         receive_data = (char *)malloc(new_sizeof_buffer);
         bzero(receive_data, new_sizeof_buffer);
         grow++;
-        //printf("debug: [grow] : %d\n", grow);
-        //printf("debug: [new_sizeof_buffer] : %d\n", new_sizeof_buffer);
         byte_count = recv(connections_file_descriptor, receive_data, new_sizeof_buffer, MSG_PEEK);
         for (int i = 0; i <= new_sizeof_buffer-1; i++)
         {
             if (receive_data[i] == '\n')
             {
-                //init_byte_count = i;
-                //printf("debug: [init_byte_count] : %d\n", init_byte_count);
                 stop = 1;
             }        
         }
-        //printf("debug: [byte_count] : %d\n", byte_count);
-        //printf("debug: [receive_data] : %s\n", receive_data);
         bzero(receive_data, new_sizeof_buffer);
-
-        
         free(receive_data);        
 
     }
@@ -107,7 +98,7 @@ return new_sizeof_buffer;
 }
 /*
     FUNCTION: Write data to file in bianary more.
-    Requirement:
+    Requirement: Write the data to file
 */
 int write_data_to_file(char* content)
 {
@@ -123,8 +114,6 @@ int write_data_to_file(char* content)
     /*
     * Requirement: append date to a file, create file if it does not exist
     */
-   //[FIX MEM ISSUE] const char* filepath = dirname(strdup(absolute_path));
-   //[FIX MEM ISSUE] const char* filename = basename(strdup(absolute_path));
 
     if (file == NULL)
     {
@@ -135,7 +124,6 @@ int write_data_to_file(char* content)
     }
     else
     {
-        //strcat(content, "\n");
         fputs(content, file);
         fclose(file);
         status = 0;
@@ -146,7 +134,7 @@ int write_data_to_file(char* content)
 
 /*
     FUNCTION: Get the data from the connecting client.
-    Requirement:
+    Requirement: This is were we will actually recive the data not using the preview flag
 */
 int receive_data_from_client(int connections_file_descriptor, char buffer[queue_buffer])
 {
@@ -171,7 +159,7 @@ int receive_data_from_client(int connections_file_descriptor, char buffer[queue_
 
 /*
     FUNCTION: Send response back to the client.
-    Requirement:
+    Requirement: Read the file and send the data to the client
 */
 int send_data_to_client(int connections_file_descriptor)
 {
@@ -183,9 +171,6 @@ int send_data_to_client(int connections_file_descriptor)
      * Requirement: Read the file and return the content to the client.
      */
     FILE* file = fopen(absolute_path, "rb");
-
-    //[FIX MEM ISSUE] const char* filepath = dirname(strdup(absolute_path));;
-    //[FIX MEM ISSUE] const char* filename = basename(strdup(absolute_path));
 
     if (file == NULL)
     {
@@ -205,7 +190,7 @@ int send_data_to_client(int connections_file_descriptor)
         fseek(file, 0, SEEK_SET);
         int data_element;
 
-        //Mem management
+        //NOTE: Allocate taransmit data mem
         char *transmit_data = ""; 
         transmit_data = (char *)malloc(length*sizeof(char));
 
@@ -247,18 +232,17 @@ int stop_server()
 
 /*
     FUNCTION: Setup Signal Handler
-    Requirement:
+    Requirement: Setup sginal handler for SIGINT and SIGTERM
 */
 void signal_handler(int signal)
 {
-    // waitpid() might overwrite errno, so we save and restore it:
+    //FROM Example: waitpid() might overwrite errno, so we save and restore it:
     int saved_errno = errno;
     while (waitpid(-1, NULL, WNOHANG) > 0);
     errno = saved_errno;
 
     if (signal == SIGINT)
     {
-        /* log & exit */
         stop_server();
         printf("SERVER INFO: Srver received a SIGINT and is shutting down...");
     }
@@ -496,6 +480,5 @@ int main(int argc, char const* argv[])
         syslog(LOG_ERR, "ERROR: Unexpected argument passed received.. Exiting: %d\n", errno);
         exit(1);
     }
-        
     return 0;
 }
